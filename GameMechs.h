@@ -50,6 +50,9 @@ class GameMechs
         int getDelay() const;
         void setDelay(int Ndelay);
 
+        void incrementScore(int increment = 1);
+
+
         
 
 };

@@ -101,21 +101,34 @@ void Player::movePlayer()
 // More methods to be added
 
 // Check for collision with food
-void Player::foodCollisionCheck(const Food& foodRef)
-{
-    objPosArrayList* foodList = food->getFood(); // Get the food list
-    objPos head = playerPosList->getHeadElement(); // Get the head of the snake
+void Player::foodCollisionCheck(const Food& foodRef) {
+    objPosArrayList* foodList = food->getFood();
+    objPos head = playerPosList->getHeadElement();
 
     for (int i = 0; i < foodList->getSize(); ++i) {
         objPos foodPos = foodList->getElement(i);
         if (head.isPosEqual(&foodPos)) {
-            mainGameMechsRef->incrementScore(); // Increment score
+            if (foodPos.getSymbol() == 'S') { // Special food detected
+                mainGameMechsRef->incrementScore(5); // Bonus points
+
+                // Reset the snake to only the head
+                while (playerPosList->getSize() > 1) {
+                    playerPosList->removeTail();
+                }
+
+            } else { // Normal food
+                mainGameMechsRef->incrementScore(1); // Normal food score
+                isGrowing = true;  // Allow the snake to grow
+            }
+
             food->generateFood(playerPosList);  // Generate new food
-            isGrowing = true;  // Allow the snake to grow
             return;
         }
     }
 }
+
+
+
 
 
 

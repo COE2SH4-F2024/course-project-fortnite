@@ -14,6 +14,8 @@ class Food
 private:
     objPosArrayList *foodBin;
     char foodSymbols[3] = {'A', 'B', 'G'};
+    bool isSpecialFood; // Flag to indicate if special food is active
+
 
 public:
     Food(); // Constructor

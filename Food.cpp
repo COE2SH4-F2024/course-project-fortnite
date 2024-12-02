@@ -42,8 +42,13 @@ void Food::generateFood(const objPosArrayList* blockOff) {
         foodBin->removeTail();
     }
 
+    // Toggle between normal and special food
+    isSpecialFood = (rand() % 5 == 0); // 20% chance for special food
+
     static int fruitIndex = 0; // Keeps track of which fruit to spawn next
-    fruitIndex = (fruitIndex + 1) % 3; // Cycle through 0, 1, 2
+    fruitIndex = (fruitIndex + 1) % 3; // Cycle through normal fruits
+
+    char foodSymbol = isSpecialFood ? 'S' : foodSymbols[fruitIndex];
 
     while (!validCoords) {
         validCoords = true;
@@ -60,7 +65,7 @@ void Food::generateFood(const objPosArrayList* blockOff) {
     }
 
     // Add the new food
-    foodBin->insertTail(objPos(xCoord, yCoord, foodSymbols[fruitIndex]));
+    foodBin->insertTail(objPos(xCoord, yCoord, foodSymbol));
 }
 
 
