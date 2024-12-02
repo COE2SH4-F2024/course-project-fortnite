@@ -31,7 +31,7 @@ int main(void)
 
     Initialize();
 
-    while(exitFlag == false)  
+    while(!exitFlag && !gameMechanics->getLoseFlagStatus())  
     {
         GetInput();
         RunLogic();

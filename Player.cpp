@@ -124,16 +124,20 @@ void Player::selfCollisionCheck()
 {
     objPos head = playerPosList->getHeadElement(); // Get the head of the snake
 
+    // Start checking from the second element because the head is already at index 0
     for (int i = 1; i < playerPosList->getSize(); ++i) 
     {
-        objPos bodyElement = playerPosList->getElement(i); // Store the element in a variable
+        objPos bodyElement = playerPosList->getElement(i); // Get each body segment
+
         if (head.isPosEqual(&bodyElement)) 
         {
-            mainGameMechsRef->setLoseFlag(); // Set lose condition
+            // If the head collides with any body segment, game over
+            mainGameMechsRef->setLoseFlag(); // Set the lose flag in GameMechs
             return;
         }
     }
 }
+
 
 
 // Update player's speed
