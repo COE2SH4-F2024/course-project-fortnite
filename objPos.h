@@ -16,12 +16,12 @@ class objPos
 
         objPos();
         objPos(int xPos, int yPos, char sym);
-
-        ~objPos(); // Explicit declaration of the destructor
-
         
         // Respect the rule of six / minimum four
         // [TODO] Implement the missing special member functions to meet the minimum four rule
+        ~objPos();
+        objPos(const objPos &copy);
+        objPos& operator=(const objPos &copy);
         
         void setObjPos(objPos o);        
         void setObjPos(int xPos, int yPos, char sym);  

@@ -1,55 +1,47 @@
 #include "objPosArrayList.h"
 
-// Paste your Tested implementation here.
-// Paste your Tested implementation here.
-// Paste your Tested implementation here.
-
-// Constructor: Initialize the list with default capacity
 objPosArrayList::objPosArrayList()
 {
-    arrayCapacity = ARRAY_MAX_CAP;   // Set maximum capacity
-    listSize = 0;                    // Initialize list size to 0
-    aList = new objPos[arrayCapacity]; // Allocate memory for the array
+    listSize = 0;
+    arrayCapacity = ARRAY_MAX_CAP;
+    aList = new objPos[arrayCapacity];
 }
 
-// Destructor: Clean up allocated memory
 objPosArrayList::~objPosArrayList()
 {
-    delete[] aList; // Free the dynamically allocated memory
+    delete[] aList;
+    //aList = nullptr;
 }
 
-// Copy Constructor: Create a deep copy of another objPosArrayList
-objPosArrayList::objPosArrayList(const objPosArrayList& copy)
+int objPosArrayList::getSize() const
 {
-    listSize = copy.listSize;
-    arrayCapacity = copy.arrayCapacity;
-
-    // Allocate new memory for the copied elements
-    aList = new objPos[arrayCapacity];
-    for (int i = 0; i < listSize; i++)
-    {
-        aList[i] = copy.aList[i];
-    }
+    return listSize;
 }
 
-// Copy Assignment Operator: Assign values from another objPosArrayList
+
+// Copy Assignment Operator
 objPosArrayList& objPosArrayList::operator=(const objPosArrayList& copy)
 {
-    if (this == &copy) // Check for self-assignment
+    int i;
+
+    // Self-assignment check
+    if (this == &copy) 
     {
         return *this;
     }
 
-    // Clean up existing resources
+    // Clean up any existing resources
     delete[] aList;
 
-    // Copy new values
+    // Allocate new memory for the array
     listSize = copy.listSize;
+
     arrayCapacity = copy.arrayCapacity;
 
-    // Allocate new memory and copy elements
     aList = new objPos[arrayCapacity];
-    for (int i = 0; i < listSize; i++)
+
+    // Copy the elements from the other object
+    for (i = 0; i < listSize; ++i) 
     {
         aList[i] = copy.aList[i];
     }
@@ -57,97 +49,91 @@ objPosArrayList& objPosArrayList::operator=(const objPosArrayList& copy)
     return *this;
 }
 
-// Get the current size of the list
-int objPosArrayList::getSize() const
-{
-    return listSize;
-}
-
-// Insert an element at the head of the list
 void objPosArrayList::insertHead(objPos thisPos)
 {
-    if (listSize >= arrayCapacity)
-    {
-        return; // Do nothing if capacity is exceeded
-    }
+    int i;
 
-    for (int i = listSize; i > 0; i--)
+    if (listSize < arrayCapacity)
     {
-        aList[i] = aList[i - 1];
+        listSize++;
+        for (i = listSize - 1; i > 0; i--)
+        {
+            aList[i] = aList[i - 1];
+        }
+        
+        aList[0] = thisPos;
     }
-
-    aList[0] = thisPos;
-    listSize++;
 }
 
-// Insert an element at the tail of the list
 void objPosArrayList::insertTail(objPos thisPos)
 {
-    if (listSize >= arrayCapacity)
+    if (listSize < arrayCapacity)
     {
-        return; // Do nothing if capacity is exceeded
+        aList[listSize] = thisPos;
+        listSize++;
     }
-
-    aList[listSize] = thisPos;
-    listSize++;
 }
 
-// Remove the head element of the list
+void objPosArrayList::insertTails(int num) 
+{
+    if (listSize < arrayCapacity)
+    {
+        listSize = listSize + num;
+    }
+}
+
 void objPosArrayList::removeHead()
 {
-    if (listSize == 0)
-    {
-        return; // Do nothing if the list is empty
-    }
+    int i;
 
-    for (int i = 0; i < listSize - 1; i++)
+    if (listSize >= 1)
     {
-        aList[i] = aList[i + 1];
-    }
 
-    listSize--;
+        for (i = 0; i < listSize - 1; i++)
+        {
+            aList[i] = aList[i + 1];
+        }
+
+        listSize--;
+    }
 }
 
-// Remove the tail element of the list
 void objPosArrayList::removeTail()
 {
-    if (listSize == 0)
+    // Check this would not result in a negative list size
+    if (listSize >= 1)
     {
-        return; // Do nothing if the list is empty
+        aList[listSize - 1] = objPos();
+        listSize--;
     }
-
-    listSize--;
 }
 
-// Get the head element of the list
 objPos objPosArrayList::getHeadElement() const
 {
-    if (listSize == 0)
-    {
-        return objPos(); // Return a default objPos if the list is empty
-    }
-
     return aList[0];
 }
 
-// Get the tail element of the list
 objPos objPosArrayList::getTailElement() const
 {
-    if (listSize == 0)
-    {
-        return objPos(); // Return a default objPos if the list is empty
-    }
-
     return aList[listSize - 1];
 }
 
-// Get an element at a specific index
 objPos objPosArrayList::getElement(int index) const
-{
-    if (index < 0 || index >= listSize)
-    {
-        return objPos(); // Return a default objPos for invalid indices
-    }
-
+{   
     return aList[index];
+}
+
+// Like removeHead but used if we need to specify an index
+void objPosArrayList::removeElement(int index)
+{
+    int i;
+
+    if (listSize >= 1 && index >= 0 && index < listSize)
+    {
+        for (i = index; i < listSize - 1; i++)
+        {
+            aList[i] = aList[i + 1];
+        }
+        listSize--;
+    }
 }

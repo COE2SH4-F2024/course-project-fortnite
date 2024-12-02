@@ -86,8 +86,8 @@ void Player::movePlayer()
 
     foodCollisionCheck(*food);      // Check for food collisions
     selfCollisionCheck();      // Check for self-collision
-    playerPosList->insertHead(newHead); // Add new head to the list
-    playerPosList->removeTail();       // Remove the tail to maintain length
+    // playerPosList->insertHead(newHead); // Add new head to the list
+    // playerPosList->removeTail();       // Remove the tail to maintain length
 }
 
 // More methods to be added
