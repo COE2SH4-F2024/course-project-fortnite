@@ -15,8 +15,9 @@ class GameMechs
         char input;
         bool exitFlag;
         bool loseFlag;
-        int score;
-
+        int score; 
+        int speed; //speed
+        int delay; //delay
         int boardSizeX;
         int boardSizeY;
 
@@ -43,6 +44,14 @@ class GameMechs
         void incrementScore();
         
         // More methods should be added here
+        int getSpeed() const;
+        void setSpeed(int Nspeed);
+
+        int getDelay() const;
+        void setDelay(int Ndelay);
+
+        
+
 };
 
 #endif
