@@ -19,6 +19,10 @@ class objPosArrayList
         objPosArrayList(const objPosArrayList& copy);
         objPosArrayList& operator=(const objPosArrayList& copy);
 
+        //added move constructor and assingment operator
+        objPosArrayList(objPosArrayList&& other) noexcept;
+        objPosArrayList& operator=(objPosArrayList&& other) noexcept; 
+
         int getSize() const;
         void insertHead(objPos thisPos);
         void insertTail(objPos thisPos);

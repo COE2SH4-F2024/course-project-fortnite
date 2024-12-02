@@ -12,6 +12,27 @@ Food::~Food()
 
 }
 
+// Copy Constructor
+Food::Food(const Food& other)
+{
+    // Perform deep copy
+    foodBin = new objPosArrayList(*other.foodBin);
+}
+
+// Copy Assignment Operator
+Food& Food::operator=(const Food& other)
+{
+    if (this == &other) {
+        return *this; 
+    }
+
+    delete foodBin;
+
+    foodBin = new objPosArrayList(*other.foodBin);
+
+    return *this;
+}
+
 void Food::generateFood(const objPosArrayList* blockOff) {
     int xCoord, yCoord;
     bool validCoords = false;
