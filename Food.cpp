@@ -8,6 +8,8 @@ Food::Food()
 Food::~Food()
 {
     delete foodBin;
+    foodBin = nullptr;
+
 }
 
 void Food::generateFood(const objPosArrayList* blockOff) {

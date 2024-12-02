@@ -61,7 +61,11 @@ void Initialize(void)
 
 void GetInput(void)
 {
-    gameMechanics->setInput(MacUILib_getChar());
+    if (MacUILib_hasChar()) {
+        gameMechanics->setInput(MacUILib_getChar());
+    } else {
+        gameMechanics->clearInput(); // Clear input when no key is pressed
+    }
 }
 
 void RunLogic(void)
@@ -166,8 +170,13 @@ void CleanUp(void)
     }
 
     delete player;
+    player = nullptr;
+
     delete food;
+    food = nullptr;
+
     delete gameMechanics;
+    gameMechanics = nullptr;
 
     
 

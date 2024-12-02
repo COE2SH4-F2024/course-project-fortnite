@@ -16,6 +16,9 @@ class objPos
 
         objPos();
         objPos(int xPos, int yPos, char sym);
+
+        ~objPos(); // Explicit declaration of the destructor
+
         
         // Respect the rule of six / minimum four
         // [TODO] Implement the missing special member functions to meet the minimum four rule

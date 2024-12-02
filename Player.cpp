@@ -19,6 +19,8 @@ Player::~Player()
 {
     // delete any heap members here
     delete playerPosList;
+    playerPosList = nullptr;
+
 }
 
 objPos Player::getPlayerPos() const
