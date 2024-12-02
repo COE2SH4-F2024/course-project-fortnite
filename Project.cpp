@@ -85,68 +85,119 @@ void RunLogic(void)
 
 void DrawScreen(void)
 {
-    MacUILib_clearScreen();    
+    MacUILib_clearScreen(); // Clear the screen for redrawing
 
-    // Draw the board
+    for (int y = 0; y < BOARD_Y; y++) {
+        for (int x = 0; x < BOARD_X; x++) {
+            if (y == 0 || y == BOARD_Y - 1 || x == 0 || x == BOARD_X - 1) {
+                MacUILib_printf("#"); // Draw board boundary
+            } else {
+                bool isRendered = false;
 
-    for (int y = 0; y < BOARD_Y; y++)
-    {
-        for (int x = 0; x < BOARD_X; x++)
-        {
-            if (y == 0 || y == BOARD_Y - 1 || x == 0 || x == BOARD_X - 1)
-            {
-                MacUILib_printf("#"); // Board boundary
-            }
-            else
-            {
-                bool isFood = false;
-
-                // Check if there's food at this position
+                // Check if the position contains food
                 objPosArrayList* foodList = food->getFood();
-                for (int i = 0; i < foodList->getSize(); i++)
-                {
+                for (int i = 0; i < foodList->getSize(); i++) {
                     objPos foodPos = foodList->getElement(i);
-                    if (foodPos.pos->x == x && foodPos.pos->y == y)
-                    {
-                        MacUILib_printf("%c", foodPos.getSymbol());
-                        isFood = true;
+                    if (foodPos.pos->x == x && foodPos.pos->y == y) {
+                        MacUILib_printf("%c", foodPos.getSymbol()); // Render food
+                        isRendered = true;
                         break;
                     }
                 }
 
-                if (!isFood)
-                {
-                    // Check if the snake occupies this position
+                // If no food, check if the position contains part of the snake
+                if (!isRendered) {
                     objPosArrayList* playerList = player->getPlayerPosList();
-                    bool isSnake = false;
-
-                    for (int i = 0; i < playerList->getSize(); i++)
-                    {
+                    for (int i = 0; i < playerList->getSize(); i++) {
                         objPos snakePart = playerList->getElement(i);
-                        if (snakePart.pos->x == x && snakePart.pos->y == y)
-                        {
-                            MacUILib_printf("*");
-                            isSnake = true;
+                        if (snakePart.pos->x == x && snakePart.pos->y == y) {
+                            MacUILib_printf("*"); // Render snake segment
+                            isRendered = true;
                             break;
                         }
                     }
+                }
 
-                    if (!isSnake)
-                    {
-                        MacUILib_printf(" "); // Empty space
-                    }
+                // If neither food nor snake, render empty space
+                if (!isRendered) {
+                    MacUILib_printf(" ");
                 }
             }
         }
         MacUILib_printf("\n");
     }
 
-    // Display Game Info
+    // Display game info
     MacUILib_printf("Score: %d\n", gameMechanics->getScore());
-    
-    
     MacUILib_printf("Press 'ESC' to exit.\n");
 }
+
+
+
+// void DrawScreen(void)
+// {
+//     MacUILib_clearScreen();    
+
+//     // Draw the board
+
+//     for (int y = 0; y < BOARD_Y; y++)
+//     {
+//         for (int x = 0; x < BOARD_X; x++)
+//         {
+//             if (y == 0 || y == BOARD_Y - 1 || x == 0 || x == BOARD_X - 1)
+//             {
+//                 MacUILib_printf("#"); // Board boundary
+//             }
+//             else
+//             {
+//                 bool isFood = false;
+
+//                 // Check if there's food at this position
+//                 objPosArrayList* foodList = food->getFood();
+//                 for (int i = 0; i < foodList->getSize(); i++)
+//                 {
+//                     objPos foodPos = foodList->getElement(i);
+//                     if (foodPos.pos->x == x && foodPos.pos->y == y)
+//                     {
+//                         MacUILib_printf("%c", foodPos.getSymbol());
+//                         isFood = true;
+//                         break;
+//                     }
+//                 }
+
+//                 if (!isFood)
+//                 {
+//                     // Check if the snake occupies this position
+//                     objPosArrayList* playerList = player->getPlayerPosList();
+//                     bool isSnake = false;
+
+//                     for (int i = 0; i < playerList->getSize(); i++)
+//                     {
+//                         objPos snakePart = playerList->getElement(i);
+//                         if (snakePart.pos->x == x && snakePart.pos->y == y)
+//                         {
+//                             MacUILib_printf("*");
+//                             isSnake = true;
+//                             break;
+//                         }
+//                     }
+
+//                     if (!isSnake)
+//                     {
+//                         MacUILib_printf(" "); // Empty space
+//                     }
+//                 }
+//             }
+//         }
+//         MacUILib_printf("\n");
+//     }
+
+//     // Display Game Info
+//     MacUILib_printf("Score: %d\n", gameMechanics->getScore());
+    
+    
+//     MacUILib_printf("Press 'ESC' to exit.\n");
+// }
 
 void LoopDelay(void)
 {

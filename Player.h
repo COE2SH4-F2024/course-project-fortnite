@@ -46,7 +46,7 @@ class Player
 
         int moveCount = 0;
         int snakeLength = 5; // (new) Fixed length for the snake
-        bool isGrowing = false; // Flag to indicate whether the snake is growing after eating food
+        bool isGrowing = false; //  (new)Flag to indicate whether the snake is growing after eating food
 
 };
 

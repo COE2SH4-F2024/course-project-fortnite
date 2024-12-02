@@ -60,14 +60,12 @@ void Player::updatePlayerDir()
 
 void Player::movePlayer()
 {
-    // PPA3 Finite State Machine logic
     if (myDir == STOP) return; // Do nothing if direction is STOP
 
     objPos newHead = playerPosList->getHeadElement(); // Get current head position
 
     // Update head position based on direction
-    switch (myDir) 
-    {
+    switch (myDir) {
         case UP:    newHead.pos->y--; break;
         case DOWN:  newHead.pos->y++; break;
         case LEFT:  newHead.pos->x--; break;
@@ -82,12 +80,21 @@ void Player::movePlayer()
     if (newHead.pos->y < 1) newHead.pos->y = BOARD_Y - 2;
     else if (newHead.pos->y > BOARD_Y - 2) newHead.pos->y = 1;
 
+    // Add the new head to the front of the snake
+    playerPosList->insertHead(newHead);
+
+    // Remove the tail only if the snake is not growing
+    if (!isGrowing) {
+        playerPosList->removeTail();
+    } else {
+        isGrowing = false; // Reset growth state after growing
+    }
+
     moveCount++; // Increment move count
 
-    foodCollisionCheck(*food);      // Check for food collisions
-    selfCollisionCheck();      // Check for self-collision
-    // playerPosList->insertHead(newHead); // Add new head to the list
-    // playerPosList->removeTail();       // Remove the tail to maintain length
+    // Check for food and self-collision
+    foodCollisionCheck(*food);
+    selfCollisionCheck();
 }
 
 // More methods to be added
@@ -101,10 +108,15 @@ void Player::foodCollisionCheck(const Food& foodRef)
     for (int i = 0; i < foodList->getSize(); ++i) {
         objPos foodPos = foodList->getElement(i);
         if (head.isPosEqual(&foodPos)) {
-            playerPosList->insertHead(head);          // Grow the snake
-            mainGameMechsRef->incrementScore();       // Increase the score
-            food->generateFood(playerPosList);        // Regenerate the food
+            mainGameMechsRef->incrementScore(); // Increment score
+            food->generateFood(playerPosList);  // Generate new food
+            isGrowing = true;  // Allow the snake to grow
+            snakeLength++;     // Update the snake's length
             return;
+            // playerPosList->insertHead(head);          // Grow the snake
+            // mainGameMechsRef->incrementScore();       // Increase the score
+            // food->generateFood(playerPosList);        // Regenerate the food
+            // return;
         }
     }
 }
