@@ -87,7 +87,7 @@ void Player::movePlayer()
     if (!isGrowing) {
         playerPosList->removeTail();
     } else {
-        isGrowing = false; // Reset growth state after growing
+        isGrowing = false; // Reset the growth flag
     }
 
     moveCount++; // Increment move count
@@ -97,10 +97,11 @@ void Player::movePlayer()
     selfCollisionCheck();
 }
 
+
 // More methods to be added
 
 // Check for collision with food
-void Player::foodCollisionCheck(const Food& foodRef) 
+void Player::foodCollisionCheck(const Food& foodRef)
 {
     objPosArrayList* foodList = food->getFood(); // Get the food list
     objPos head = playerPosList->getHeadElement(); // Get the head of the snake
@@ -111,15 +112,11 @@ void Player::foodCollisionCheck(const Food& foodRef)
             mainGameMechsRef->incrementScore(); // Increment score
             food->generateFood(playerPosList);  // Generate new food
             isGrowing = true;  // Allow the snake to grow
-            snakeLength++;     // Update the snake's length
             return;
-            // playerPosList->insertHead(head);          // Grow the snake
-            // mainGameMechsRef->incrementScore();       // Increase the score
-            // food->generateFood(playerPosList);        // Regenerate the food
-            // return;
         }
     }
 }
+
 
 
 // Check for self-collision

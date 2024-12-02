@@ -18,8 +18,8 @@ private:
 public:
     Food(); // Constructor
     ~Food(); // Destructor (if needed)
-    Food(const Food& other);             // Copy Constructor
-    Food& operator=(const Food& other);  // Copy Assignment Operator
+    // Food(const Food& other);             // Copy Constructor
+    // Food& operator=(const Food& other);  // Copy Assignment Operator
 
     void generateFood(const objPosArrayList *blockOff);
     objPosArrayList* getFood() const;
