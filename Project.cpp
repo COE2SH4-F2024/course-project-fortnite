@@ -61,9 +61,13 @@ void Initialize(void)
 
 void GetInput(void)
 {
-    if (MacUILib_hasChar()) {
+    if (MacUILib_hasChar()) 
+    {
         gameMechanics->setInput(MacUILib_getChar());
-    } else {
+    } 
+
+    else 
+    {
         gameMechanics->clearInput(); // Clear input when no key is pressed
     }
 }
@@ -87,30 +91,41 @@ void DrawScreen(void)
 {
     MacUILib_clearScreen(); // Clear the screen for redrawing
 
-    for (int y = 0; y < BOARD_Y; y++) {
-        for (int x = 0; x < BOARD_X; x++) {
-            if (y == 0 || y == BOARD_Y - 1 || x == 0 || x == BOARD_X - 1) {
-                MacUILib_printf("#"); // Draw board boundary
-            } else {
+    for (int y = 0; y < BOARD_Y; y++) 
+    {
+        for (int x = 0; x < BOARD_X; x++) 
+        {
+            if (y == 0 || y == BOARD_Y - 1 || x == 0 || x == BOARD_X - 1) 
+            {
+                MacUILib_printf("#"); // Draw border for the gameboard
+            } 
+
+            else 
+            {
                 bool isRendered = false;
 
                 // Check if the position contains food
                 objPosArrayList* foodList = food->getFood();
-                for (int i = 0; i < foodList->getSize(); i++) {
+                for (int i = 0; i < foodList->getSize(); i++) 
+                {
                     objPos foodPos = foodList->getElement(i);
-                    if (foodPos.pos->x == x && foodPos.pos->y == y) {
-                        MacUILib_printf("%c", foodPos.getSymbol()); // Render food
+                    if (foodPos.pos->x == x && foodPos.pos->y == y)
+                    {
+                        MacUILib_printf("%c", foodPos.getSymbol()); // Spawn food
                         isRendered = true;
                         break;
                     }
                 }
 
                 // If no food, check if the position contains part of the snake
-                if (!isRendered) {
+                if (!isRendered) 
+                {
                     objPosArrayList* playerList = player->getPlayerPosList();
-                    for (int i = 0; i < playerList->getSize(); i++) {
+                    for (int i = 0; i < playerList->getSize(); i++) 
+                    {
                         objPos snakePart = playerList->getElement(i);
-                        if (snakePart.pos->x == x && snakePart.pos->y == y) {
+                        if (snakePart.pos->x == x && snakePart.pos->y == y) 
+                        {
                             MacUILib_printf("*"); // Render snake segment
                             isRendered = true;
                             break;
@@ -118,87 +133,24 @@ void DrawScreen(void)
                     }
                 }
 
-                // If neither food nor snake, render empty space
-                if (!isRendered) {
+                // If neither food nor snake print empty space
+                if (!isRendered) 
+                {
                     MacUILib_printf(" ");
                 }
             }
         }
+
         MacUILib_printf("\n");
     }
 
     // Display game info
     MacUILib_printf("Score: %d\n", gameMechanics->getScore());
+    MacUILib_printf("Apple, Banana, Grape, & Super Fruit(20%% chance)\n");
     MacUILib_printf("Press 'ESC' to exit.\n");
 }
 
 
-
-
-// void DrawScreen(void)
-// {
-//     MacUILib_clearScreen();    
-
-//     // Draw the board
-
-//     for (int y = 0; y < BOARD_Y; y++)
-//     {
-//         for (int x = 0; x < BOARD_X; x++)
-//         {
-//             if (y == 0 || y == BOARD_Y - 1 || x == 0 || x == BOARD_X - 1)
-//             {
-//                 MacUILib_printf("#"); // Board boundary
-//             }
-//             else
-//             {
-//                 bool isFood = false;
-
-//                 // Check if there's food at this position
-//                 objPosArrayList* foodList = food->getFood();
-//                 for (int i = 0; i < foodList->getSize(); i++)
-//                 {
-//                     objPos foodPos = foodList->getElement(i);
-//                     if (foodPos.pos->x == x && foodPos.pos->y == y)
-//                     {
-//                         MacUILib_printf("%c", foodPos.getSymbol());
-//                         isFood = true;
-//                         break;
-//                     }
-//                 }
-
-//                 if (!isFood)
-//                 {
-//                     // Check if the snake occupies this position
-//                     objPosArrayList* playerList = player->getPlayerPosList();
-//                     bool isSnake = false;
-
-//                     for (int i = 0; i < playerList->getSize(); i++)
-//                     {
-//                         objPos snakePart = playerList->getElement(i);
-//                         if (snakePart.pos->x == x && snakePart.pos->y == y)
-//                         {
-//                             MacUILib_printf("*");
-//                             isSnake = true;
-//                             break;
-//                         }
-//                     }
-
-//                     if (!isSnake)
-//                     {
-//                         MacUILib_printf(" "); // Empty space
-//                     }
-//                 }
-//             }
-//         }
-//         MacUILib_printf("\n");
-//     }
-
-//     // Display Game Info
-//     MacUILib_printf("Score: %d\n", gameMechanics->getScore());
-    
-    
-//     MacUILib_printf("Press 'ESC' to exit.\n");
-// }
 
 void LoopDelay(void)
 {
@@ -211,7 +163,7 @@ void CleanUp(void)
     MacUILib_clearScreen();   
 
 
-    if (gameMechanics->getLoseFlagStatus()) 
+    if (gameMechanics->getLoseFlagStatus()) // game over screen if you lose or quit on purpose
     {
         MacUILib_printf("Game Over! You lost. Your final score is: %d", gameMechanics->getScore());
     } 
@@ -221,13 +173,13 @@ void CleanUp(void)
         MacUILib_printf("Congratulations! You ended the game. Your final score is: %d",gameMechanics->getScore());
     }
 
-    delete player;
+    delete player; // frees memory
     player = nullptr;
 
-    delete food;
+    delete food; // frees memory
     food = nullptr;
 
-    delete gameMechanics;
+    delete gameMechanics; // frees memory
     gameMechanics = nullptr;
 
     

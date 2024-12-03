@@ -35,23 +35,27 @@ void Player::updatePlayerDir()
     char input = mainGameMechsRef->getInput(); // Get input from game mechanisms
 
     if (input == 27) { // ASCII code for Escape key
-        mainGameMechsRef->setExitTrue(); // End the game
+        mainGameMechsRef->setExitTrue(); // Ends the game
     }
 
-    switch (input) 
+    switch (input) //FSM for the snake movement
     {
         case 'w': case 'W':
             if (myDir != DOWN) myDir = UP;
             break;
+
         case 's': case 'S':
             if (myDir != UP) myDir = DOWN;
             break;
+
         case 'a': case 'A':
             if (myDir != RIGHT) myDir = LEFT;
             break;
+
         case 'd': case 'D':
             if (myDir != LEFT) myDir = RIGHT;
             break;
+
         default:
             break; // Ignore invalid inputs
     }
@@ -65,7 +69,8 @@ void Player::movePlayer()
     objPos newHead = playerPosList->getHeadElement(); // Get current head position
 
     // Update head position based on direction
-    switch (myDir) {
+    switch (myDir) 
+    {
         case UP:    newHead.pos->y--; break;
         case DOWN:  newHead.pos->y++; break;
         case LEFT:  newHead.pos->x--; break;
@@ -73,20 +78,38 @@ void Player::movePlayer()
         default:    break;
     }
 
-    // Handle wraparound
-    if (newHead.pos->x < 1) newHead.pos->x = BOARD_X - 2;
-    else if (newHead.pos->x > BOARD_X - 2) newHead.pos->x = 1;
+    // Handles wraparound
+    if (newHead.pos->x < 1) 
+    {
+        newHead.pos->x = BOARD_X - 2;
+    }
 
-    if (newHead.pos->y < 1) newHead.pos->y = BOARD_Y - 2;
-    else if (newHead.pos->y > BOARD_Y - 2) newHead.pos->y = 1;
+    else if (newHead.pos->x > BOARD_X - 2) 
+    {
+        newHead.pos->x = 1;
+    }
+
+    if (newHead.pos->y < 1) 
+    {
+        newHead.pos->y = BOARD_Y - 2;
+    }
+
+    else if (newHead.pos->y > BOARD_Y - 2)
+    {
+        newHead.pos->y = 1;
+    }
 
     // Add the new head to the front of the snake
     playerPosList->insertHead(newHead);
 
     // Remove the tail only if the snake is not growing
-    if (!isGrowing) {
+    if (!isGrowing) 
+    {
         playerPosList->removeTail();
-    } else {
+    } 
+
+    else 
+    {
         isGrowing = false; // Reset the growth flag
     }
 
@@ -101,23 +124,30 @@ void Player::movePlayer()
 // More methods to be added
 
 // Check for collision with food
-void Player::foodCollisionCheck(const Food& foodRef) {
+void Player::foodCollisionCheck(const Food& foodRef) 
+{
     objPosArrayList* foodList = food->getFood();
     objPos head = playerPosList->getHeadElement();
 
-    for (int i = 0; i < foodList->getSize(); ++i) {
+    for (int i = 0; i < foodList->getSize(); ++i)
+    {
         objPos foodPos = foodList->getElement(i);
-        if (head.isPosEqual(&foodPos)) {
-            if (foodPos.getSymbol() == 'S') { // Special food detected
-                mainGameMechsRef->incrementScore(5); // Bonus points
+        if (head.isPosEqual(&foodPos)) 
+        {
+            if (foodPos.getSymbol() == 'S') // Special food detected
+            { 
+                mainGameMechsRef->incrementScore(5); // Bonus points (5)
 
                 // Reset the snake to only the head
-                while (playerPosList->getSize() > 1) {
+                while (playerPosList->getSize() > 1) 
+                {
                     playerPosList->removeTail();
                 }
+            } 
 
-            } else { // Normal food
-                mainGameMechsRef->incrementScore(1); // Normal food score
+            else  // Normal food
+            {
+                mainGameMechsRef->incrementScore(1); // Normal food score (1)
                 isGrowing = true;  // Allow the snake to grow
             }
 
@@ -164,7 +194,7 @@ void Player::updatePlayerSpeed()
 void Player::updatePlayerDelay()
 {
     int currentDelay = mainGameMechsRef->getDelay();
-    mainGameMechsRef->setDelay(currentDelay - 5000); // Example: Decrease delay to increase game speed
+    mainGameMechsRef->setDelay(currentDelay - 5000);    //reduces delay, increasing game speed
 }
 
 objPosArrayList* Player::getPlayerPosList() const {

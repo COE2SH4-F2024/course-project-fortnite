@@ -89,7 +89,12 @@ bool objPos::isPosEqual(const objPos* refPos) const
 char objPos::getSymbolIfPosEqual(const objPos* refPos) const
 {
     if(isPosEqual(refPos))
+    {
         return symbol;
+    }
+
     else
+    {
         return 0;
+    }
 }

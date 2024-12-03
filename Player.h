@@ -21,7 +21,7 @@ class Player
         Player(GameMechs* thisGMRef, Food *foodRef);
         ~Player();
 
-        objPos getPlayerPos() const; // Upgrade this in iteration 3.       
+        objPos getPlayerPos() const; // Upgrade this in iteration 3. (Upgraded)       
         void updatePlayerDir();
         void movePlayer();
 
@@ -31,16 +31,16 @@ class Player
 
         objPosArrayList* getPlayerPosList() const;
 
-        void foodCollisionCheck(const Food& foodRef);
-        void selfCollisionCheck();    
+        void foodCollisionCheck(const Food& foodRef); // checks if the food is eaten
+        void selfCollisionCheck();    // checks if the snake hits itself
         void updatePlayerSpeed();  
         void updatePlayerDelay();  
 
     private:
-        objPosArrayList* playerPosList; // Upgraded       
+        objPosArrayList* playerPosList; // // Upgrade this in iteration 3. (Upgraded)         
         enum Dir myDir;
 
-        // Need a reference to the Main Game Mechanisms
+        // Reference to the main game mechanisms
         GameMechs* mainGameMechsRef;
         Food* food;
 

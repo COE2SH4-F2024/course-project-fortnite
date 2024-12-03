@@ -51,10 +51,6 @@ class GameMechs
         void setDelay(int Ndelay);
 
         void incrementScore(int increment = 1);
-
-
-        
-
 };
 
 #endif
