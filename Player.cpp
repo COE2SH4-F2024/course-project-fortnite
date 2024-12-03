@@ -11,7 +11,7 @@ Player::Player(GameMechs* thisGMRef, Food *foodRef)
     // more actions to be included
 
     playerPosList = new objPosArrayList();
-    playerPosList->insertHead(objPos(20, 10, '*')); // Starting Position
+    playerPosList->insertHead(objPos(20, 10, '*')); // Starting Position in the middle of the board
 }
 
 

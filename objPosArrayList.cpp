@@ -49,6 +49,7 @@ objPosArrayList& objPosArrayList::operator=(const objPosArrayList& copy)
     return *this;
 }
 
+//Adds a new head segment to the snake's body whenever the snake moves
 void objPosArrayList::insertHead(objPos thisPos)
 {
     int i;
